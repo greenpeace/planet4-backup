@@ -24,11 +24,18 @@ create_backup_bucket() {
   # Apply labels
   gsutil label ch \
     -l "app:planet4" \
-    -l "app_environment:production" \
+    -l "environment:production" \
     -l "component:backup" \
+    -l "nro:${APP_HOSTPATH}" \
     "gs://${BACKUP_BUCKET_NAME}"
 }
 
 # Retrying here because gsutil is flaky, connection resets often
 echo "Create GCS bucket to store backup data ..."
 retry create_backup_bucket
+
+backup_images() {
+  gsutil rsync -d -r gs://"${WP_STATELESS_BUCKET}" gs://"${WP_STATELESS_BUCKET}_backup"
+}
+
+retry backup_images
