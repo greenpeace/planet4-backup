@@ -72,6 +72,10 @@ create_db_backup_bucket() {
     -l "component:db_backup" \
     -l "nro:${APP_HOSTPATH}" \
     "gs://${DB_BACKUP_BUCKET_NAME}"
+
+  # Allow versioning of database files (use storage versioning to keep multiple copies of the SQL!)
+  gsutil versioning set on "gs://${DB_BACKUP_BUCKET_NAME}"
+  gsutil lifecycle set /app/lifecycle-db.json "gs://${DB_BACKUP_BUCKET_NAME}"
 }
 
 
@@ -79,10 +83,3 @@ create_db_backup_bucket() {
 echo "Create GCS buckets to store backup data ..."
 retry create_image_backup_bucket
 retry create_db_backup_bucket
-
-backup_images() {
-  echo "here we would do the actual sync. Commented it out for speedness of testing"
-  #gsutil rsync -d -r -m gs://"${WP_STATELESS_BUCKET}" gs://"${WP_STATELESS_BUCKET}_images_backup"
-}
-
-retry backup_images
