@@ -16,8 +16,9 @@ echo "The BACKUP_PROJECT_ID is ${BACKUP_PROJECT_ID}"
 
 
 backup_images() {
-  echo "here we would do the actual sync. Commented it out for speedness of testing"
-  #gsutil rsync -d -r -m gs://"${WP_STATELESS_BUCKET}" gs://"${WP_STATELESS_BUCKET}_images_backup"
+  echo "Here we will do actual sync"
+  # If you work locally and you want to speed your testing comment the following line
+  gsutil rsync -d -r -m gs://"${WP_STATELESS_BUCKET}" gs://"${WP_STATELESS_BUCKET}_images_backup"
 }
 
 retry backup_images

@@ -78,6 +78,8 @@ create_db_backup_bucket() {
   gsutil lifecycle set /app/lifecycle-db.json "gs://${DB_BACKUP_BUCKET_NAME}"
 }
 
+# Set the normal images bucket to have versioning so that deleted images get retained
+gsutil versioning set on "gs://${WP_STATELESS_BUCKET}"
 
 # Retrying here because gsutil is flaky, connection resets often
 echo "Create GCS buckets to store backup data ..."

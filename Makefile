@@ -1,7 +1,22 @@
 SHELL := /bin/bash
 
-dev:
-	docker build -t backuptest1 .
+BUILD_NAMESPACE ?= greenpeaceinternational
+
+SED_MATCH ?= [^a-zA-Z0-9._-]
+
+ifeq ($(CIRCLECI),true)
+# Configure build variables based on CircleCI environment vars
+BUILD_NUM = $(CIRCLE_BUILD_NUM)
+BRANCH_NAME ?= $(shell sed 's/$(SED_MATCH)/-/g' <<< "$(CIRCLE_BRANCH)")
+BUILD_TAG ?= $(shell sed 's/$(SED_MATCH)/-/g' <<< "$(CIRCLE_TAG)")
+else
+# Not in CircleCI environment, try to set sane defaults
+BUILD_NUM = local
+BRANCH_NAME ?= $(shell git rev-parse --abbrev-ref HEAD | sed 's/$(SED_MATCH)/-/g')
+BUILD_TAG ?= local-tag
+endif
+
+dev: build
 	docker run --rm \
 	  -e BACKUP_BUCKET_NAME=${BACKUP_BUCKET_NAME} \
 	  -e BACKUP_PROJECT_ID=${BACKUP_PROJECT_ID} \
@@ -13,4 +28,15 @@ dev:
 		-e WP_DB_PASSWORD=${WP_DB_PASSWORD} \
 		-e SQLPROXY_KEY=${SQLPROXY_KEY} \
 		-e APP_HOSTPATH=koyansync \
-		backuptest1
+		$(BUILD_NAMESPACE)/planet4-backup:build-local
+
+
+build:
+	docker build \
+				-t $(BUILD_NAMESPACE)/planet4-backup:build-$(BUILD_NUM) \
+				-t $(BUILD_NAMESPACE)/planet4-backup:latest \
+				.
+
+push:
+	docker push $(BUILD_NAMESPACE)/planet4-backup:build-$(BUILD_NUM)
+	docker push $(BUILD_NAMESPACE)/planet4-backup:latest
