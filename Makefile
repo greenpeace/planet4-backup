@@ -19,7 +19,7 @@ endif
 dev: build
 	docker run --rm \
 	  -e BACKUP_BUCKET_NAME=${BACKUP_BUCKET_NAME} \
-	  -e BACKUP_PROJECT_ID=${BACKUP_PROJECT_ID} \
+	  -e GOOGLE_PROJECT_ID=${BACKUP_PROJECT_ID} \
 		-e WP_STATELESS_KEY=${BACKUP_SERVICE_KEY} \
 		-e WP_STATELESS_BUCKET=planet4-koyansync-stateless-develop \
 		-e CLOUDSQL_INSTANCE=p4-develop-k8s \

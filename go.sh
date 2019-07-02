@@ -6,7 +6,7 @@ set -euo pipefail
 
 # echo "The WP_STATELESS_KEY is ${WP_STATELESS_KEY}"
 
-echo "The BACKUP_PROJECT_ID is ${BACKUP_PROJECT_ID}"
+echo "The GOOGLE_PROJECT_ID is ${GOOGLE_PROJECT_ID}"
 
 ./activate-service-account.sh
 

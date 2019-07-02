@@ -16,13 +16,13 @@ fi
 create_image_backup_bucket() {
 
   IMAGE_BACKUP_BUCKET_NAME=${WP_STATELESS_BUCKET}_images_backup
-  gsutil ls -p "${BACKUP_PROJECT_ID}" "gs://${IMAGE_BACKUP_BUCKET_NAME}" >/dev/null && return
+  gsutil ls -p "${GOOGLE_PROJECT_ID}" "gs://${IMAGE_BACKUP_BUCKET_NAME}" >/dev/null && return
 
   # Make image backup bucket if it doesn't exist
 
   echo " * gcs: Initialising WP Stateless bucket"
   echo
-  echo " * gcs: Project: ${BACKUP_PROJECT_ID}"
+  echo " * gcs: Project: ${GOOGLE_PROJECT_ID}"
   echo " * gcs: Labels:"
   echo " * gcs:  - NRO:  ${APP_HOSTPATH}"
   echo " * gcs: Bucket:  gs://${IMAGE_BACKUP_BUCKET_NAME}"
@@ -30,7 +30,7 @@ create_image_backup_bucket() {
   echo " * Purpose: Backup of bucket:  gs://${WP_STATELESS_BUCKET}"
 
 
-  gsutil mb -l "${BACKUP_BUCKET_LOCATION}" -p "${BACKUP_PROJECT_ID}" "gs://${IMAGE_BACKUP_BUCKET_NAME}"
+  gsutil mb -l "${BACKUP_BUCKET_LOCATION}" -p "${GOOGLE_PROJECT_ID}" "gs://${IMAGE_BACKUP_BUCKET_NAME}"
 
   # Apply labels to image backups bucket
   gsutil label ch \
@@ -46,7 +46,7 @@ create_image_backup_bucket() {
 create_db_backup_bucket() {
 
   DB_BACKUP_BUCKET_NAME=${WP_STATELESS_BUCKET}_db_backup
-  gsutil ls -p "${BACKUP_PROJECT_ID}" "gs://${DB_BACKUP_BUCKET_NAME}" >/dev/null && return
+  gsutil ls -p "${GOOGLE_PROJECT_ID}" "gs://${DB_BACKUP_BUCKET_NAME}" >/dev/null && return
 
   # Make image backup bucket if it doesn't exist
   if [ -z ${APP_ENVIRONMENT+x} ]; then
@@ -55,7 +55,7 @@ create_db_backup_bucket() {
 
   echo " * gcs: Initialising WP Stateless bucket"
   echo
-  echo " * gcs: Project: ${BACKUP_PROJECT_ID}"
+  echo " * gcs: Project: ${GOOGLE_PROJECT_ID}"
   echo " * gcs: Labels:"
   echo " * gcs:  - NRO:  ${APP_HOSTPATH}"
   echo " * gcs: Bucket:  gs://${DB_BACKUP_BUCKET_NAME}"
@@ -63,7 +63,7 @@ create_db_backup_bucket() {
   echo " * Purpose: Backup of bucket:  gs://${WP_STATELESS_BUCKET}"
 
 
-  gsutil mb -l "${BACKUP_BUCKET_LOCATION}" -p "${BACKUP_PROJECT_ID}" "gs://${DB_BACKUP_BUCKET_NAME}"
+  gsutil mb -l "${BACKUP_BUCKET_LOCATION}" -p "${GOOGLE_PROJECT_ID}" "gs://${DB_BACKUP_BUCKET_NAME}"
 
   # Apply labels to image backups bucket
   gsutil label ch \

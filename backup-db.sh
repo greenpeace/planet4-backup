@@ -14,12 +14,12 @@ BUCKET_DESTINATION=gs://${WP_STATELESS_BUCKET}_db_backup
 export GOOGLE_APPLICATION_CREDENTIALS="/app/key.json"
 
 echo ""
-echo "We will try to get connected to: ${BACKUP_PROJECT_ID}:us-central1:${CLOUDSQL_INSTANCE}"
+echo "We will try to get connected to: ${GOOGLE_PROJECT_ID}:us-central1:${CLOUDSQL_INSTANCE}"
 echo ""
 
 trap finish EXIT
 cloud_sql_proxy \
-  -instances="${BACKUP_PROJECT_ID}:us-central1:${CLOUDSQL_INSTANCE}=tcp:3306" &
+  -instances="${GOOGLE_PROJECT_ID}:us-central1:${CLOUDSQL_INSTANCE}=tcp:3306" &
 
 mkdir -p content
 

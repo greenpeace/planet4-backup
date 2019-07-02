@@ -13,7 +13,6 @@ ENTRYPOINT ["/app/entrypoint.sh"]
 CMD ["./go.sh"]
 
 ARG WP_STATELESS_KEY
-ARG BACKUP_PROJECT_ID
 
 ENV BACKUP_SERVICE_KEY_FILE="gcloud_service_key.json" \
   BACKUP_BUCKET_LOCATION="us"
