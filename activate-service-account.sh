@@ -3,9 +3,9 @@ set -euo pipefail
 
 file=${1:-/app/${BACKUP_SERVICE_KEY_FILE}}
 
-[ -n "$BACKUP_SERVICE_KEY" ] && {
+[ -n "$WP_STATELESS_KEY" ] && {
   # BACKUP is set in environment variable
-  echo "${BACKUP_SERVICE_KEY}" | base64 -d > "$file"
+  echo "${WP_STATELESS_KEY}" | base64 -d > "$file"
 }
 
 pwd
