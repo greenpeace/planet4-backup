@@ -1,7 +1,5 @@
 FROM google/cloud-sdk:alpine
 
-RUN echo "Hello"
-
 RUN gcloud --quiet components update cloud_sql_proxy
 
 RUN apk add --no-cache mysql-client gzip
