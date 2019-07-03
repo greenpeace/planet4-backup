@@ -16,7 +16,10 @@ BRANCH_NAME ?= $(shell git rev-parse --abbrev-ref HEAD | sed 's/$(SED_MATCH)/-/g
 BUILD_TAG ?= local-tag
 endif
 
-dev: build
+dev:
+	docker build \
+				-t $(BUILD_NAMESPACE)/planet4-backup:build-$(BUILD_NUM) \
+				.
 	docker run --rm \
 	  -e BACKUP_BUCKET_NAME=${BACKUP_BUCKET_NAME} \
 	  -e GOOGLE_PROJECT_ID=${BACKUP_PROJECT_ID} \
@@ -31,12 +34,22 @@ dev: build
 		$(BUILD_NAMESPACE)/planet4-backup:build-local
 
 
-build:
+build-tag:
 	docker build \
 				-t $(BUILD_NAMESPACE)/planet4-backup:build-$(BUILD_NUM) \
 				-t $(BUILD_NAMESPACE)/planet4-backup:latest \
 				.
 
-push:
+build-branch:
+	docker build \
+				-t $(BUILD_NAMESPACE)/planet4-backup:build-$(BUILD_NUM) \
+				-t $(BUILD_NAMESPACE)/planet4-backup:$(BRANCH_NAME) \
+				.
+
+push-tag:
 	docker push $(BUILD_NAMESPACE)/planet4-backup:build-$(BUILD_NUM)
 	docker push $(BUILD_NAMESPACE)/planet4-backup:latest
+
+push-branch:
+	docker push $(BUILD_NAMESPACE)/planet4-backup:build-$(BUILD_NUM)
+	docker push $(BUILD_NAMESPACE)/planet4-backup:$(BRANCH_NAME)
