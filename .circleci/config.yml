@@ -9,20 +9,28 @@ defaults: &defaults
 version: 2
 
 jobs:
-  build-push:
+  build-push-tag:
     <<: *defaults
     steps:
       - setup_remote_docker:
           docker_layer_caching: true
       - checkout
       - run: docker-login.sh
-      - run: make build push
+      - run: make build-tag push-tag
+  build-push-branch:
+    <<: *defaults
+    steps:
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - checkout
+      - run: docker-login.sh
+      - run: make build-branch push-branch
 
 workflows:
   version: 2
   branch:
     jobs:
-      - build-push:
+      - build-push-branch:
           context: org-global
           filters:
             branches:
@@ -30,7 +38,7 @@ workflows:
 
   tag:
     jobs:
-      - build-push:
+      - build-push-tag:
           context: org-global
           filters:
             branches:
