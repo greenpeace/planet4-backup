@@ -37,7 +37,7 @@ dev:
 build-tag:
 	docker build \
 				-t $(BUILD_NAMESPACE)/planet4-backup:build-$(BUILD_NUM) \
-				-t $(BUILD_NAMESPACE)/planet4-backup:tag-$(BUILD_TAG) \
+				-t $(BUILD_NAMESPACE)/planet4-backup:$(BUILD_TAG) \
 				-t $(BUILD_NAMESPACE)/planet4-backup:latest \
 				.
 
@@ -49,7 +49,7 @@ build-branch:
 
 push-tag:
 	docker push $(BUILD_NAMESPACE)/planet4-backup:build-$(BUILD_NUM)
-	docker push $(BUILD_NAMESPACE)/planet4-backup:tag-$(BUILD_TAG)
+	docker push $(BUILD_NAMESPACE)/planet4-backup:$(BUILD_TAG)
 	docker push $(BUILD_NAMESPACE)/planet4-backup:latest
 
 push-branch:
