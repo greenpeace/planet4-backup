@@ -1,7 +1,5 @@
 # Greenpeace Planet4 Backup Docker Container
 
-![Planet4](./planet4.png)
-
 ## Introduction
 
 ### What is it?
