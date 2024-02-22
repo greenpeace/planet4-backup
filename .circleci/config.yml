@@ -21,22 +21,64 @@ jobs:
       - setup_remote_docker:
           docker_layer_caching: true
       - checkout
-      - run: docker-login.sh
-      - run: make build-tag push-tag
+      - run:
+          name: Docker login
+          command: docker-login.sh
+      - run:
+          name: Build tag and push
+          command: make build-tag push-tag
+
   build-push-branch:
     <<: *defaults
     steps:
       - setup_remote_docker:
           docker_layer_caching: true
       - checkout
-      - run: docker-login.sh
-      - run: make build-branch push-branch
+      - run:
+          name: Docker login
+          command: docker-login.sh
+      - run:
+          name: Build branch and push
+          command: make build-branch push-branch
+
+  promote:
+    <<: *defaults
+    steps:
+      - checkout
+      - run:
+          name: Prepare git
+          command: |
+            git config user.email "${GIT_USER_EMAIL}"
+            git config user.name "CircleCI Bot"
+            git config merge.ours.driver true
+      - run:
+          name: Create tag
+          command: |
+            current_version=$(git-current-tag.sh)
+            new_version=$(increment-version.sh $current_version)
+            echo "Tagging to ${new_version}"
+            git tag -a "$new_version" -m "$new_version"
+            git push origin --tags
 
 workflows:
   branch:
     jobs:
       - build-push-branch:
           context: org-global
+      - hold-promote:
+          type: approval
+          requires:
+            - build-push-branch
+          filters:
+            branches:
+              only: main
+      - promote:
+          context: org-global
+          requires:
+            - hold-promote
+          filters:
+            branches:
+              only: main
 
   tag:
     jobs:
