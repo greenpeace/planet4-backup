@@ -1,12 +1,18 @@
 ---
+version: 2.1
+
+docker_auth: &docker_auth
+  username: $DOCKERHUB_USERNAME
+  password: $DOCKERHUB_PASSWORD
+
 defaults: &defaults
   environment:
     GOOGLE_PROJECT_ID: planet-4-151612
   docker:
     - image: greenpeaceinternational/circleci-base:latest
+      auth:
+        <<: *docker_auth
   working_directory: /home/circleci/app
-
-version: 2
 
 jobs:
   build-push-tag:
@@ -27,14 +33,10 @@ jobs:
       - run: make build-branch push-branch
 
 workflows:
-  version: 2
   branch:
     jobs:
       - build-push-branch:
           context: org-global
-          filters:
-            branches:
-              ignore: develop
 
   tag:
     jobs:
