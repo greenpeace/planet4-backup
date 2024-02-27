@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 set -euo pipefail
 
 # Default Docker CMD will be go.sh
@@ -9,5 +9,5 @@ else
   # Execute the custom CMD
   echo "Executing command:"
   echo "$*"
-	exec /bin/sh -c "$*"
+	exec /bin/bash -c "$*"
 fi

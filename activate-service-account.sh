@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 set -euo pipefail
 
 file=${1:-/app/${BACKUP_SERVICE_KEY_FILE}}

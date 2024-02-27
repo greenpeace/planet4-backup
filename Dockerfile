@@ -1,8 +1,9 @@
-FROM google/cloud-sdk:alpine
+#FROM google/cloud-sdk:alpine
+FROM greenpeaceinternational/circleci-base:latest
 
 RUN gcloud --quiet components update cloud_sql_proxy
 
-RUN apk add --no-cache mysql-client gzip
+#RUN apk add --no-cache mysql-client gzip
 
 WORKDIR /app
 
