@@ -44,6 +44,6 @@ gzip --test "content/${WP_DB_NAME}-db-backup.sql.gz"
 echo ""
 echo "uploading to ${BUCKET_DESTINATION}/..."
 echo ""
-gsutil cp "content/${WP_DB_NAME}-db-backup.sql.gz" "${BUCKET_DESTINATION}/"
+gcloud storage cp "content/${WP_DB_NAME}-db-backup.sql.gz" "${BUCKET_DESTINATION}/"
 
-gsutil ls "${BUCKET_DESTINATION}/"
+gcloud storage ls "${BUCKET_DESTINATION}/"

@@ -54,11 +54,11 @@ The database files are available as per the google cloud storage [versioning doc
     Copying archived object versions
     
     To copy an archived version of an object:
-    gsutilREST APIs
+    gcloud REST APIs
     
-    Use the gsutil cp command, replacing [VALUES_IN_BRACKETS] with the appropriate values:
+    Use the gcloud storage cp command, replacing [VALUES_IN_BRACKETS] with the appropriate values:
     
-    gsutil cp gs://[SOURCE_BUCKET_NAME]/[SOURCE_OBJECT_NAME]#[GENERATION_NUMBER] destination_file
+    gcloud storage cp gs://[SOURCE_BUCKET_NAME]/[SOURCE_OBJECT_NAME]#[GENERATION_NUMBER] destination_file
     
     ```  
 
